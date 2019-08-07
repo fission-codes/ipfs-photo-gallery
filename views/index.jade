@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}!
+
+  form(ref='uploadForm', id='uploadForm', action='/upload', method='post' encType="multipart/form-data")
+    input(type="file" name="newImage")
+    input(type='submit' value='Upload')
+
+  ul
+    each cid in cids
+      img(src="#{ipfsProvider}/ipfs/#{cid}", width="100px")
