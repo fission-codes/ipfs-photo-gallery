@@ -1,0 +1,7 @@
+{
+  "name": "FISSION Web API Example Gallery",
+  "description": "A simple gallery to explore the FISSION Web API",
+  "repository": "https://github.com/fission-suite/web-api-example",
+  "keywords": ["node", "express", "ipfs"]
+}
+
