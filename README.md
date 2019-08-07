@@ -1,5 +1,5 @@
 # FISSION Web API Example
 
 ```
-DEBUG="web-api-example:*" npm starta
+DEBUG="web-api-example:*" npm start
 ```
