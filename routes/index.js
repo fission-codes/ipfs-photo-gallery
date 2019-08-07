@@ -4,8 +4,8 @@ const router = express.Router();
 const querystring = require('querystring');
 
 const ipfsProvider = process.env.INTERPLANETARY_FISSION_URL || 'https://hostless.dev';
-const username = process.env.INTERPLANETARY_FISSION_PASSWORD;
-const password = process.env.INTERPLANETARY_FISSION_USERNAME;
+const username = process.env.INTERPLANETARY_FISSION_USERNAME;
+const password = process.env.INTERPLANETARY_FISSION_PASSWORD;
 
 const auth = {username, password};
 const title = "The FISSION Mini Pinboard";
