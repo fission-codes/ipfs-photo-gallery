@@ -3,9 +3,10 @@ const express = require('express');
 const router = express.Router();
 const querystring = require('querystring');
 
-const ipfsProvider = process.env.INTERPLANETARY_FISSION_URL || 'http://localhost:1337';
-const username = process.env.INTERPLANETARY_FISSION_PASSWORD || "ca2c70bc13298c5109ee";
-const password = process.env.INTERPLANETARY_FISSION_USERNAME || "VJ_u+fou!VRF9+MBOeyAw4LQnrqD4*C1sHcl2Cgl2NAjV.XAiAspSv+9!w";
+const ipfsProvider = process.env.INTERPLANETARY_FISSION_URL || 'https://hostless.dev';
+const username = process.env.INTERPLANETARY_FISSION_PASSWORD;
+const password = process.env.INTERPLANETARY_FISSION_USERNAME;
+
 const auth = {username, password};
 const title = "The FISSION Mini Pinboard";
 
