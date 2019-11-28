@@ -10,4 +10,4 @@ This is a sample app for using the Fission IPFS Heroku Add On. It was bootstrapp
 
 This replaces the previous NodeJS / Express app, that is still available in the `express` branch of this repo.
 
-<!-- [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy) -->
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
