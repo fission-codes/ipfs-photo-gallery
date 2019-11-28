@@ -1,21 +1,41 @@
 {
-  "name": "web-api-example",
-  "version": "0.0.0",
+  "name": "react-ipfs-photo-gallery",
+  "version": "0.1.0",
   "private": true,
-  "scripts": {
-    "start": "node -r dotenv/config ./bin/www"
-  },
   "dependencies": {
+    "@material-ui/core": "^4.6.0",
+    "@types/jest": "24.0.22",
+    "@types/node": "12.12.6",
+    "@types/react": "^16.9.11",
+    "@types/react-dom": "16.9.4",
     "axios": "^0.19.0",
-    "clean-css": ">=4.1.11",
-    "cookie-parser": "~1.4.4",
-    "constantinople": ">=3.1.1",
-    "debug": "~2.6.9",
-    "dotenv": "^8.0.0",
-    "express": "~4.16.1",
-    "express-fileupload": "^1.1.5",
-    "http-errors": "~1.6.3",
-    "jade": "~1.11.0",
-    "morgan": "~1.9.1"
+    "dotenv": "^8.2.0",
+    "get-ipfs": "^1.0.1",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
+    "react-scripts": "3.2.0",
+    "typeface-roboto": "0.0.75",
+    "typescript": "3.7.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

@@ -6,13 +6,8 @@
 [![Built by FISSION](https://img.shields.io/badge/⌘-Built_by_FISSION-purple.svg)](https://fission.codes)
 [![Discord](https://img.shields.io/discord/478735028319158273.svg)](https://discord.gg/zAQBDEq)
 
-This is a sample app for using the FISSION IPFS Heroku Add On.
+This is a sample app for using the Fission IPFS Heroku Add On. It was bootstrapped with the Create React App.
 
-Instructions for running in Alpha tester mode are [on the forum](https://talk.fission.codes/t/ipfs-photo-gallery-in-alpha-mode/197), as well as using `curl` to use your credentials to upload to the API directly.
-
-
-```
-DEBUG="web-api-example:*" npm start
-```
+This replaces the previous NodeJS / Express app, that is still available in the `express` branch of this repo.
 
 <!-- [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy) -->
