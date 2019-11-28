@@ -19,5 +19,4 @@ You can try out your own version of this app directly on Heroku.
 Or, fork this repo and click the deploy button in your version of the repo, so you can make edits.
 
 ---
-_Note: This replaces the previous NodeJS / Express app, that is still available in the `express` branch of this repo.
-_
+_Note: This replaces the previous NodeJS / Express app, that is still available in the express branch of this repo._
