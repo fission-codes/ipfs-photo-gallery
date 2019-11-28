@@ -1,12 +1,11 @@
 {
   "name": "Fission IPFS Photo Gallery",
   "description": "A simple gallery to explore the Fission (InterPlanetary File System) IPFS Api",
-  "repository": "https://github.com/fission-suite/web-api-example",
+  "repository": "https://github.com/fission-suite/ipfs-photo-gallery",
   "keywords": ["fission", "react", "ipfs"],
   "addons": [
-    "interplanetary-fission",
     {
-      "plan": "test"
+      "plan": "interplanetary-fission:test"
     }
   ]
 }
