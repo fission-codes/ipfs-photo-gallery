@@ -5,7 +5,8 @@ import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
 import {CID, DEFAULT_CID, loadUserSettings} from "./ipfs/getUserSettings";
 import {Box, Container, Typography} from "@material-ui/core";
 import './App.css';
-import PhotoGallery from "./components/PhotoGallery";
+import {PhotoUpload} from "./components/PhotoUpload";
+import PhotoGalleryGrid from "./components/PhotoGalleryGrid";
 
 const App: React.FC = () => {
 
@@ -49,10 +50,11 @@ const App: React.FC = () => {
         <ThemeProvider theme={theme}>
             <CssBaseline/>
             <Box component={Container} mt={theme.spacing(1)}>
-                <Typography variant={'h1'} gutterBottom={true}>
+                <Typography variant={'h1'} gutterBottom={true} style={{ hyphens: 'auto' }}>
                     Hello{userSettings && ', ' + userSettings.username}!
                 </Typography>
-                <PhotoGallery />
+                <PhotoUpload />
+                <PhotoGalleryGrid />
                 <UserSettingsForm
                     cid={cid}
                     setCID={setCID}
@@ -64,6 +66,6 @@ const App: React.FC = () => {
             </Box>
         </ThemeProvider>
     );
-}
+};
 
 export default App;
