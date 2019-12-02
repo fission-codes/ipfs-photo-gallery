@@ -3,7 +3,7 @@ import axios from 'axios';
 export const ipfsProvider = process.env.REACT_APP_INTERPLANETARY_FISSION_URL || 'https://hostless.dev';
 const username = process.env.REACT_APP_INTERPLANETARY_FISSION_USERNAME;
 const password = process.env.REACT_APP_INTERPLANETARY_FISSION_PASSWORD;
-const auth = username && password && {username, password};
+export const auth = username && password && {username, password};
 
 const getPhotoGalleryCids = async () => {
     if (auth) {

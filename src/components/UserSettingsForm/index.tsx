@@ -22,7 +22,7 @@ const UserSettingsForm: React.FC<Props> = (props) => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <Box display={'flex'} alignItems={'flex-end'}>
+            <Box display={'flex'} alignItems={'flex-end'} marginTop={4} marginBottom={4}>
                 <TextField
                     id={'preferencesCID'}
                     label={'User Settings CID'}
