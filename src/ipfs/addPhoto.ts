@@ -7,7 +7,7 @@ export const addPhotosToIpfs = (photos: File[]) => {
             try {
                 await add(photo, auth);
             } catch (error) {
-                throw new Error('Could not upload this photo');
+                alert('Could not upload this photo');
             }
         } else {
             alert('User not authenticated');
