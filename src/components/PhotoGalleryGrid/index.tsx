@@ -44,7 +44,14 @@ const Photo: React.FC<Props> = (props) => {
     return (
         <RootRef rootRef={ref}>
             <Grid item xs={big ? 12 : 6} md={big ? 12 : 3} onClick={toggleBig} className={classes.grid}>
-                <figure className={classes.figure}><img src={`${ipfsProvider}/ipfs/${p}`} alt={''} className={classes.img}/></figure>
+                <figure className={classes.figure}>
+                    <img
+                        src={`${ipfsProvider}/ipfs/${p}`}
+                        alt={''}
+                        className={classes.img}
+                        onError={evt => (evt.target as HTMLImageElement).style.display = 'none'}
+                    />
+                </figure>
             </Grid>
         </RootRef>
     )
