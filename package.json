@@ -1,9 +1,9 @@
 {
   "name": "react-ipfs-photo-gallery",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "dependencies": {
-    "@fission-suite/client": "^1.0.0-rc",
+    "@fission-suite/client": "2.0.2-rc",
     "@material-ui/core": "^4.6.0",
     "@types/jest": "24.0.22",
     "@types/node": "12.12.6",
@@ -15,7 +15,7 @@
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-dropzone": "^10.2.1",
-    "react-scripts": "3.2.0",
+    "react-scripts": "^3.4.0",
     "typeface-roboto": "0.0.75",
     "typescript": "3.7.2"
   },

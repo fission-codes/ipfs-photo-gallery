@@ -1,11 +1,9 @@
 import axios from 'axios';
+import {Auth} from "@fission-suite/client";
 
 export const ipfsProvider = process.env.REACT_APP_INTERPLANETARY_FISSION_URL || 'https://hostless.dev';
-const username = process.env.REACT_APP_INTERPLANETARY_FISSION_USERNAME;
-const password = process.env.REACT_APP_INTERPLANETARY_FISSION_PASSWORD;
-export const auth = username && password && {username, password};
 
-const getPhotoGalleryCids = async () => {
+const getPhotoGalleryCids = async (auth: Auth) => {
     if (auth) {
         try {
             return await axios.get(ipfsProvider + '/ipfs/cids/', {auth});
@@ -15,7 +13,7 @@ const getPhotoGalleryCids = async () => {
     }
 };
 
-export const getPhotos = async () => {
-    const photos = await getPhotoGalleryCids();
+export const getPhotos = async (auth: Auth) => {
+    const photos = await getPhotoGalleryCids(auth);
     return photos && photos.data;
 };
