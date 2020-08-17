@@ -4,8 +4,10 @@ import AuthenticatedLayout from "./AuthenticatedLayout";
 import useAuth from "./useAuth";
 
 const AuthLayout: React.FC = () => {
-    const { verified } = useAuth();
-    return verified ? <AuthenticatedLayout /> : <LoginForm />
+
+    const { auth } = useAuth();
+
+    return (auth.authSucceeded || auth.continuum) ? <AuthenticatedLayout /> : <LoginForm />;
 };
 
 export default AuthLayout;

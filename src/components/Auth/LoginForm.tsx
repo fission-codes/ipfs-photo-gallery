@@ -15,13 +15,9 @@ const LoginForm: React.FC = () => {
         },
     }));
     const classes = useStyles();
-    const { checkAuth } = useAuth();
-    const [username, setUsername] = React.useState('');
-    const [password, setPassword] = React.useState('');
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        checkAuth({username, password});
-    };
+    
+    const onClick = sdk.redirectToLobby();
+
     return (
         <>
             <CssBaseline/>
@@ -38,32 +34,7 @@ const LoginForm: React.FC = () => {
                                 <CardContent>
                                     <Typography variant={'h5'} component={'h1'}>IPFS Photo Gallery</Typography>
                                     <Typography variant={'subtitle1'} component={'h2'}>Pin your photos to the distributed web!</Typography>
-                                    <form onSubmit={handleSubmit}>
-                                        <Box my={3}>
-                                            <TextField
-                                                variant={'outlined'}
-                                                label={'Username'}
-                                                name={'username'}
-                                                value={username}
-                                                onChange={e => setUsername(e.currentTarget.value)}
-                                                fullWidth={true}
-                                                required={true}
-                                            />
-                                        </Box>
-                                        <Box my={3}>
-                                            <TextField
-                                                variant={'outlined'}
-                                                label={'Password'}
-                                                name={'password'}
-                                                type={'password'}
-                                                value={password}
-                                                onChange={e => setPassword(e.currentTarget.value)}
-                                                fullWidth={true}
-                                                required={true}
-                                            />
-                                        </Box>
-                                        <Button variant={'contained'} color={'primary'} type={'submit'} disabled={!username || !password}>Log In to Fission</Button>
-                                    </form>
+                                    <Button variant={'contained'} color={'primary'} onClick={onClick}>Log In to Fission</Button>
                                 </CardContent>
                             </Box>
                         </Card>
