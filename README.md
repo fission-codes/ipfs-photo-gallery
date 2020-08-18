@@ -28,9 +28,9 @@ REACT_APP_INTERPLANETARY_FISSION_PASSWORD = INSERT_PASSWORD_HERE
 ```
 
 Install dependencies:
-`npm i`
+`yarn install`
 Run app:
-`npm run start`
+`yarn start`
 
 ---
 _Note: This replaces the previous NodeJS / Express app, that is still available in the express branch of this repo._
