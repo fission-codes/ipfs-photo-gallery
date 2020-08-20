@@ -59,7 +59,7 @@ const Photo: React.FC<Props> = (props) => {
 
 const PhotoGallery: React.FC = () => {
     // const { auth } = useAuth();
-    const [photos, setPhotos] = React.useState([]);
+    const [photos] = React.useState([]);
     // getPhotos(auth).then(r => setPhotos(r));
     if (photos.length > 0) {
         return <>{photos.map((p: string) => <Photo key={p} photo={p}/>)}</>
