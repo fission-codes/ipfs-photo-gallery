@@ -1,7 +1,6 @@
 import * as React from 'react';
-import {getPhotos, ipfsProvider} from "../../ipfs/getPhotoGallery";
-import {Grid, makeStyles, RootRef} from "@material-ui/core";
-import useAuth from "../Auth/useAuth";
+import { ipfsProvider } from '../../ipfs/getPhotoGallery';
+import { Grid, makeStyles, RootRef } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
     grid: {
@@ -59,11 +58,13 @@ const Photo: React.FC<Props> = (props) => {
 };
 
 const PhotoGallery: React.FC = () => {
-    const { auth } = useAuth();
-    const [photos, setPhotos] = React.useState();
-    getPhotos(auth).then(r => setPhotos(r));
-
-    return photos ? photos.map((p: string) => <Photo key={p} photo={p} />) : <></>;
+    // const { auth } = useAuth();
+    const [photos, setPhotos] = React.useState([]);
+    // getPhotos(auth).then(r => setPhotos(r));
+    if (photos.length > 0) {
+        return <>{photos.map((p: string) => <Photo key={p} photo={p}/>)}</>
+    }
+    return <></>;
 };
 
 const PhotoGalleryGrid: React.FC = () =>
