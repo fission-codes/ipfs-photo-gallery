@@ -1,9 +1,9 @@
 import * as React from 'react';
-import {Box, Button, Card, CardContent, CardMedia, createMuiTheme, Grid, TextField, Typography} from "@material-ui/core";
-import useAuth from "./useAuth";
-import CssBaseline from "@material-ui/core/CssBaseline";
+import * as sdk from 'webnative';
+import { Box, Button, Card, CardContent, CardMedia, createMuiTheme, Grid, Typography } from '@material-ui/core';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import Icon from './undraw_image_upload_wqh3.svg'
-import {makeStyles} from "@material-ui/core/styles";
+import { makeStyles } from '@material-ui/core/styles';
 
 
 const LoginForm: React.FC = () => {
@@ -15,8 +15,6 @@ const LoginForm: React.FC = () => {
         },
     }));
     const classes = useStyles();
-    
-    const onClick = sdk.redirectToLobby();
 
     return (
         <>
@@ -33,8 +31,8 @@ const LoginForm: React.FC = () => {
                             <Box px={2} pb={2}>
                                 <CardContent>
                                     <Typography variant={'h5'} component={'h1'}>IPFS Photo Gallery</Typography>
-                                    <Typography variant={'subtitle1'} component={'h2'}>Pin your photos to the distributed web!</Typography>
-                                    <Button variant={'contained'} color={'primary'} onClick={onClick}>Log In to Fission</Button>
+                                    <Typography variant={'subtitle1'} component={'h2'} gutterBottom={true}>Pin your photos to the distributed web!</Typography>
+                                    <Button variant={'contained'} color={'primary'} onClick={() => sdk.redirectToLobby()}>Log In to Fission</Button>
                                 </CardContent>
                             </Box>
                         </Card>
