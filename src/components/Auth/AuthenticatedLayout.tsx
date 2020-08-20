@@ -2,11 +2,12 @@ import * as React from 'react';
 import { Box, Container, createMuiTheme, ThemeProvider, Typography } from '@material-ui/core';
 // import {PhotoUpload} from "../PhotoUpload";
 import PhotoGalleryGrid from '../PhotoGalleryGrid';
-import { DEFAULT_CID } from '../../ipfs/getUserSettings';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import useAuth from './useAuth';
 
 const AuthenticatedLayout: React.FC = () => {
-    const initialUserSettingsCid = localStorage.getItem("userSettingsCID") || DEFAULT_CID;
+    // const initialUserSettingsCid = localStorage.getItem("userSettingsCID") || DEFAULT_CID;
+    const { username } = useAuth();
     // const [cid, setCID] = React.useState(initialUserSettingsCid);
     // const [userSettings, setUserSettings] = React.useState();
     // const [isLoadingUserSettings, setIsLoadingUserSettings] = React.useState(false);
@@ -37,7 +38,7 @@ const AuthenticatedLayout: React.FC = () => {
             <CssBaseline/>
             <Box component={Container} mt={16}>
                 <Typography variant={'h5'} gutterBottom={true} style={{ hyphens: 'auto', wordBreak: 'break-word' }}>
-                    Hello
+                    Hello, {username}!
                 </Typography>
                 <Typography>
                     Welcome to your IPFS Photo Gallery!
