@@ -1,15 +1,22 @@
-import {add, Auth} from '@fission-suite/client';
+import useAuth from '../components/Auth/useAuth';
+import { createPhotoGalleryPath } from './photoGalleryDirectory';
 
-export const addPhotosToIpfs = (photos: File[], auth: Auth) => {
-    photos.map(async (photo) => {
-        if (auth) {
-            try {
-                await add(photo, auth);
-            } catch (error) {
-                alert('Could not upload this photo');
-            }
-        } else {
-            alert('User not authenticated');
-        }
-    })
-};
+function usePhotoUpload() {
+    const { fs } = useAuth();
+
+    const addPhotosToIpfs = (photos: File[]) => {
+        createPhotoGalleryPath(fs).then(path =>
+            photos.map(async (photo) => {
+                try {
+                    await fs?.write(`${path}/${photo.name}`, photo)
+                        .then(r => console.log('uploaded photo: ', r, photo));
+                } catch (err) {
+                    console.error('createPhotoGalleryPath', err);
+                }
+            })
+        )
+    };
+    return { addPhotosToIpfs }
+}
+
+export default usePhotoUpload;
