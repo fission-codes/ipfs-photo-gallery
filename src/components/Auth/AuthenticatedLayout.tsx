@@ -4,6 +4,7 @@ import { Box, Container, createMuiTheme, ThemeProvider, Typography } from '@mate
 import PhotoGalleryGrid from '../PhotoGalleryGrid';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import useAuth from './useAuth';
+import { PhotoUpload } from '../PhotoUpload';
 
 const AuthenticatedLayout: React.FC = () => {
     // const initialUserSettingsCid = localStorage.getItem("userSettingsCID") || DEFAULT_CID;
@@ -43,7 +44,7 @@ const AuthenticatedLayout: React.FC = () => {
                 <Typography>
                     Welcome to your IPFS Photo Gallery!
                 </Typography>
-                {/*<PhotoUpload />*/}
+                <PhotoUpload />
                 <PhotoGalleryGrid />
                 {/*<UserSettingsForm*/}
                 {/*    cid={cid}*/}

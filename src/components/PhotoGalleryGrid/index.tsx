@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ipfsProvider } from '../../ipfs/getPhotoGallery';
+import usePhotos, { ipfsProvider } from '../../ipfs/getPhotoGallery';
 import { Grid, makeStyles, RootRef } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
@@ -58,11 +58,9 @@ const Photo: React.FC<Props> = (props) => {
 };
 
 const PhotoGallery: React.FC = () => {
-    // const { auth } = useAuth();
-    const [photos] = React.useState([]);
-    // getPhotos(auth).then(r => setPhotos(r));
-    if (photos.length > 0) {
-        return <>{photos.map((p: string) => <Photo key={p} photo={p}/>)}</>
+    const { photos, isTree } = usePhotos();
+    if (photos && photos !== undefined && isTree(photos)) {
+        console.log('getLinks', photos.getLinks());
     }
     return <></>;
 };
