@@ -37,7 +37,7 @@ const Photo: React.FC<Props> = (props) => {
                     block: 'center',
                 });
             }
-            }, 200);
+        }, 200);
     };
     const p = props.photo;
     const classes = useStyles();
@@ -58,16 +58,17 @@ const Photo: React.FC<Props> = (props) => {
 };
 
 const PhotoGallery: React.FC = () => {
-    const { photos, isTree } = usePhotos();
-    if (photos && photos !== undefined && isTree(photos)) {
-        console.log('getLinks', photos.getLinks());
+    const {photos} = usePhotos();
+    if (photos !== undefined) {
+        console.log('photos', photos);
+        // return <>{photos.map((p: string) => <Photo key={p} photo={p}/>)}</>
     }
     return <></>;
 };
 
 const PhotoGalleryGrid: React.FC = () =>
     <Grid container spacing={3} wrap={'wrap'}>
-        <PhotoGallery />
+        <PhotoGallery/>
     </Grid>
 
 export default PhotoGalleryGrid;

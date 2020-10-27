@@ -1,39 +1,49 @@
 import * as React from 'react'
 import * as sdk from 'webnative'
-import { AuthSucceeded, FulfilledScenario, State } from 'webnative'
-import FileSystem from 'webnative/fs';
+import { AuthSucceeded, Scenario, State } from 'webnative'
+import FileSystem from 'webnative/fs/filesystem';
 
 function isAuthSucceeded(state: State | undefined): state is AuthSucceeded {
-    return state !== undefined && (state as AuthSucceeded).authenticated === true;
+    return state !== undefined &&
+        (state.scenario === Scenario.AuthSucceeded || state.scenario === Scenario.Continuation);
 }
 
 function useAuth() {
-    const [fulfilledScenario, setFulfilledScenario] = React.useState<FulfilledScenario>();
-    const authScenario = fulfilledScenario?.scenario;
-    const authState = fulfilledScenario?.state
+    const [state, setState] = React.useState<State>()
+    const authScenario = state?.scenario;
+    let fs: FileSystem | undefined = undefined;
     let username = '';
-    let fs: FileSystem | undefined;
-
-    console.log('fulfilledScenario', fulfilledScenario);
-
-    if (isAuthSucceeded(authState)) {
-        username = authState.username
-        fs = authState.fs
-    }
+    let appPath;
 
     React.useEffect(() => {
-        async function fetchScenario() {
+        async function fetchState() {
             try {
-                const result = await sdk.initialise({});
-                setFulfilledScenario(result)
+                const result = await sdk.initialise({
+                    permissions: {
+                        app: {
+                            name: 'IPFS Photo Gallery',
+                            creator: 'Pat Dryburgh'
+                        }
+                    }
+                });
+                setState(result)
             } catch (err) {
                 console.error('fetchScenarioError', err)
             }
         }
-        fetchScenario()
+
+        fetchState().then(r => console.log(r))
     }, [])
 
-    return { authScenario, authState, username, fs };
+    if (isAuthSucceeded(state)) {
+        username = state.username
+        fs = state.fs
+        if (fs !== undefined && fs.appPath !== undefined) {
+            appPath = fs.appPath()
+        }
+    }
+
+    return {state, fs, username, authScenario, appPath};
 }
 
 export default useAuth;

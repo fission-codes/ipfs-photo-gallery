@@ -4,9 +4,11 @@ import { Box, Button, Card, CardContent, CardMedia, createMuiTheme, Grid, Typogr
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Icon from './undraw_image_upload_wqh3.svg'
 import { makeStyles } from '@material-ui/core/styles';
+import useAuth from './useAuth';
 
 
 const LoginForm: React.FC = () => {
+    const {state} = useAuth()
     const useStyles = makeStyles(theme => ({
         media: {
             paddingTop: '64%',
@@ -32,7 +34,7 @@ const LoginForm: React.FC = () => {
                                 <CardContent>
                                     <Typography variant={'h5'} component={'h1'}>IPFS Photo Gallery</Typography>
                                     <Typography variant={'subtitle1'} component={'h2'} gutterBottom={true}>Pin your photos to the distributed web!</Typography>
-                                    <Button variant={'contained'} color={'primary'} onClick={() => sdk.redirectToLobby()}>Log In to Fission</Button>
+                                    <Button variant={'contained'} color={'primary'} onClick={() => state !== undefined ? sdk.redirectToLobby(state.permissions) : undefined}>Log In to Fission</Button>
                                 </CardContent>
                             </Box>
                         </Card>
