@@ -1,6 +1,7 @@
 import * as React from 'react';
-import usePhotos, { ipfsProvider } from '../../ipfs/getPhotoGallery';
+import usePhotos, { ipfsProvider } from '../../ipfs/usePhotos';
 import { Grid, makeStyles, RootRef } from '@material-ui/core';
+import { FileContent } from 'webnative/ipfs';
 
 const useStyles = makeStyles(theme => ({
     grid: {
@@ -21,7 +22,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 interface Props {
-    photo: string
+    photo: FileContent
 }
 
 const Photo: React.FC<Props> = (props) => {
@@ -58,12 +59,11 @@ const Photo: React.FC<Props> = (props) => {
 };
 
 const PhotoGallery: React.FC = () => {
-    const {photos} = usePhotos();
+    const {photos} = usePhotos()
     if (photos !== undefined) {
-        console.log('photos', photos);
-        // return <>{photos.map((p: string) => <Photo key={p} photo={p}/>)}</>
+        return <>{photos.map(p => <Photo key={p.toString()} photo={p}/>)}</>;
     }
-    return <></>;
+    return <></>
 };
 
 const PhotoGalleryGrid: React.FC = () =>

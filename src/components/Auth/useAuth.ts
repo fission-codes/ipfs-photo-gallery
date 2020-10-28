@@ -2,6 +2,7 @@ import * as React from 'react'
 import * as sdk from 'webnative'
 import { AuthSucceeded, Scenario, State } from 'webnative'
 import FileSystem from 'webnative/fs/filesystem';
+import { createPhotoGalleryPath, pathExists } from '../../ipfs/photoGalleryDirectory';
 
 function isAuthSucceeded(state: State | undefined): state is AuthSucceeded {
     return state !== undefined &&
@@ -40,6 +41,9 @@ function useAuth() {
         fs = state.fs
         if (fs !== undefined && fs.appPath !== undefined) {
             appPath = fs.appPath()
+            if (!pathExists(fs, appPath).then(() => undefined)) {
+                createPhotoGalleryPath(fs, appPath).then(() => undefined)
+            }
         }
     }
 

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import useAuth from '../components/Auth/useAuth';
 import { BaseLinks, File, Tree } from 'webnative/fs/types';
+import { FileContent } from 'webnative/ipfs';
 
 export const ipfsProvider = process.env.REACT_APP_INTERPLANETARY_FISSION_URL || 'https://hostless.dev';
 
@@ -9,27 +10,31 @@ function isTree(path: File | Tree | null): path is Tree {
 }
 
 function usePhotos() {
-    const {fs, appPath} = useAuth();
-    const [photos, setPhotos] = React.useState<BaseLinks>();
+    const {fs, appPath} = useAuth()
+    const [photos, setPhotos] = React.useState<FileContent[]>()
     React.useEffect(() => {
         async function fetchPhotos() {
-            console.log('appPath', appPath)
             if (fs !== undefined && appPath !== undefined) {
-                try {
-                    const exists = await fs.exists(appPath);
-                    console.log('exists', exists);
-                } catch (err) {
-                    console.log('does not exist', err)
-                }
                 if (await fs.exists(appPath)) {
                     console.log('exists')
+                    let result: BaseLinks | undefined;
                     try {
                         console.log('trying')
-                        const result = await fs.ls(appPath)
-                        console.log('fetchPhotos', result);
-                        setPhotos(result);
+                        result = await fs.ls(appPath)
                     } catch (err) {
                         console.error(err)
+                    }
+                    if (result !== undefined) {
+                        console.log('there was a result')
+                        const photos = Object.entries(result)
+                        const data = await Promise.all(photos.map(([name, _]) => {
+                            return fs.cat(`${appPath}/${name}`)
+                        }))
+                        console.log('appPath', appPath)
+                        console.log(result)
+                        console.log(photos)
+                        console.log(data)
+                        setPhotos(data)
                     }
                 } else {
                     console.log('Path does not exist')
