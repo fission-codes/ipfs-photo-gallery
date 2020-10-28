@@ -13,7 +13,14 @@ function usePhotos() {
     const [photos, setPhotos] = React.useState<BaseLinks>();
     React.useEffect(() => {
         async function fetchPhotos() {
+            console.log('appPath', appPath)
             if (fs !== undefined && appPath !== undefined) {
+                try {
+                    const exists = await fs.exists(appPath);
+                    console.log('exists', exists);
+                } catch (err) {
+                    console.log('does not exist', err)
+                }
                 if (await fs.exists(appPath)) {
                     console.log('exists')
                     try {
