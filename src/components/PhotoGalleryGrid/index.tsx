@@ -1,8 +1,6 @@
 import * as React from 'react';
-import usePhotos, { ipfsProvider } from '../../ipfs/usePhotos';
+import usePhotos from '../../ipfs/usePhotos';
 import { Grid, makeStyles, RootRef } from '@material-ui/core';
-import { FileContent } from 'webnative/ipfs';
-import useAuth from '../Auth/useAuth';
 
 const useStyles = makeStyles(theme => ({
     grid: {
@@ -23,11 +21,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 interface Props {
-    photo: FileContent
+    photo: string
 }
 
 const Photo: React.FC<Props> = (props) => {
-    const {appPath} = useAuth()
     const [big, setBig] = React.useState(false);
     const ref = React.useRef<HTMLDivElement>();
     const toggleBig = () => {
@@ -62,10 +59,7 @@ const Photo: React.FC<Props> = (props) => {
 const PhotoGallery: React.FC = () => {
     const {photos} = usePhotos()
     if (photos !== undefined) {
-        return <>{photos.map(p => {
-            const url = URL.createObjectURL(p)
-            return <Photo key={url} photo={url} />
-        })}</>
+        return <>{photos.map(url => <Photo key={url} photo={url} />)}</>
     }
 
     return <></>

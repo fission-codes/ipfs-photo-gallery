@@ -1,7 +1,6 @@
 import * as React from 'react';
 import useAuth from '../components/Auth/useAuth';
-import { BaseLink, BaseLinks, File, Tree } from 'webnative/fs/types';
-import { FileContent } from 'webnative/ipfs';
+import { BaseLinks, File, Tree } from 'webnative/fs/types';
 
 export const ipfsProvider = process.env.REACT_APP_INTERPLANETARY_FISSION_URL || 'https://hostless.dev';
 
@@ -11,7 +10,7 @@ function isTree(path: File | Tree | null): path is Tree {
 
 function usePhotos() {
     const {fs, appPath} = useAuth()
-    const [photos, setPhotos] = React.useState<FileContent[]>()
+    const [photos, setPhotos] = React.useState<string[]>()
     React.useEffect(() => {
         async function fetchPhotos() {
             if (fs !== undefined && appPath !== undefined) {
@@ -26,8 +25,9 @@ function usePhotos() {
                     }
                     if (result !== undefined) {
                         const data = Object.entries(result)
-                        const photos = await Promise.all(data.map(([name, _]) => {
-                            return fs.cat(`${appPath}/${name}`)
+                        const photos = await Promise.all(data.map(async ([name, _]) => {
+                            const fileContent = await fs.cat(`${appPath}/${name}`)
+                            return URL.createObjectURL(new Blob([fileContent as BlobPart]));
                         }))
                         console.log('photos:', photos);
                         setPhotos(photos)
