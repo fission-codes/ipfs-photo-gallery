@@ -1,6 +1,6 @@
 import * as React from 'react';
 import useAuth from '../components/Auth/useAuth';
-import { BaseLinks, File, Tree } from 'webnative/fs/types';
+import { BaseLink, BaseLinks, File, Tree } from 'webnative/fs/types';
 import { FileContent } from 'webnative/ipfs';
 
 export const ipfsProvider = process.env.REACT_APP_INTERPLANETARY_FISSION_URL || 'https://hostless.dev';
@@ -25,16 +25,12 @@ function usePhotos() {
                         console.error(err)
                     }
                     if (result !== undefined) {
-                        console.log('there was a result')
-                        const photos = Object.entries(result)
-                        const data = await Promise.all(photos.map(([name, _]) => {
+                        const data = Object.entries(result)
+                        const photos = await Promise.all(data.map(([name, _]) => {
                             return fs.cat(`${appPath}/${name}`)
                         }))
-                        console.log('appPath', appPath)
-                        console.log(result)
-                        console.log(photos)
-                        console.log(data)
-                        setPhotos(data)
+                        console.log('photos:', photos);
+                        setPhotos(photos)
                     }
                 } else {
                     console.log('Path does not exist')

@@ -2,6 +2,7 @@ import * as React from 'react';
 import usePhotos, { ipfsProvider } from '../../ipfs/usePhotos';
 import { Grid, makeStyles, RootRef } from '@material-ui/core';
 import { FileContent } from 'webnative/ipfs';
+import useAuth from '../Auth/useAuth';
 
 const useStyles = makeStyles(theme => ({
     grid: {
@@ -26,6 +27,7 @@ interface Props {
 }
 
 const Photo: React.FC<Props> = (props) => {
+    const {appPath} = useAuth()
     const [big, setBig] = React.useState(false);
     const ref = React.useRef<HTMLDivElement>();
     const toggleBig = () => {
@@ -40,17 +42,16 @@ const Photo: React.FC<Props> = (props) => {
             }
         }, 200);
     };
-    const p = props.photo;
     const classes = useStyles();
     return (
         <RootRef rootRef={ref}>
             <Grid item xs={big ? 12 : 6} md={big ? 12 : 3} onClick={toggleBig} className={classes.grid}>
                 <figure className={classes.figure}>
                     <img
-                        src={`${ipfsProvider}/ipfs/${p}`}
+                        src={props.photo}
                         alt={''}
                         className={classes.img}
-                        onError={evt => (evt.target as HTMLImageElement).style.display = 'none'}
+                        // onError={evt => (evt.target as HTMLImageElement).style.display = 'none'}
                     />
                 </figure>
             </Grid>
@@ -61,8 +62,12 @@ const Photo: React.FC<Props> = (props) => {
 const PhotoGallery: React.FC = () => {
     const {photos} = usePhotos()
     if (photos !== undefined) {
-        return <>{photos.map(p => <Photo key={p.toString()} photo={p}/>)}</>;
+        return <>{photos.map(p => {
+            const url = URL.createObjectURL(p)
+            return <Photo key={url} photo={url} />
+        })}</>
     }
+
     return <></>
 };
 
