@@ -16,7 +16,7 @@
     "react-scripts": "^4.0.0",
     "typeface-roboto": "0.0.75",
     "typescript": "^3.8.0",
-    "webnative": "^0.19.11"
+    "webnative": "^0.20.5"
   },
   "scripts": {
     "start": "react-scripts start",

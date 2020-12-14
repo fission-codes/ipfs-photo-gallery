@@ -1,10 +1,12 @@
 import React, { useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
-import usePhotoUpload from '../../ipfs/addPhoto';
 import { makeStyles, Paper, Typography } from '@material-ui/core';
 
-export const PhotoUpload: React.FC = () => {
-    const { addPhotosToIpfs } = usePhotoUpload();
+interface IPhotoUploadProps {
+    addPhotosToIpfs: (photos: File[]) => void;
+}
+
+export const PhotoUpload: React.FC<IPhotoUploadProps> = ({ addPhotosToIpfs }) => {
     const onDrop = useCallback(files => addPhotosToIpfs(files), [addPhotosToIpfs]);
     const {getRootProps, getInputProps, isDragActive} = useDropzone({accept: 'image/jpeg, image/png, image/gif', onDrop});
 

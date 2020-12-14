@@ -1,14 +1,13 @@
 import * as React from 'react';
 import { Box, Container, createMuiTheme, ThemeProvider, Typography } from '@material-ui/core';
 // import {PhotoUpload} from "../PhotoUpload";
-import PhotoGalleryGrid from '../PhotoGalleryGrid';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import useAuth from './useAuth';
-import { PhotoUpload } from '../PhotoUpload';
+import { Photos } from '../Photos/Photos';
 
 const AuthenticatedLayout: React.FC = () => {
     // const initialUserSettingsCid = localStorage.getItem("userSettingsCID") || DEFAULT_CID;
-    const { username } = useAuth();
+    const {username} = useAuth();
     // const [cid, setCID] = React.useState(initialUserSettingsCid);
     // const [userSettings, setUserSettings] = React.useState();
     // const [isLoadingUserSettings, setIsLoadingUserSettings] = React.useState(false);
@@ -38,14 +37,13 @@ const AuthenticatedLayout: React.FC = () => {
         <ThemeProvider theme={theme}>
             <CssBaseline/>
             <Box component={Container} mt={16}>
-                <Typography variant={'h5'} gutterBottom={true} style={{ hyphens: 'auto', wordBreak: 'break-word' }}>
+                <Typography variant={'h5'} gutterBottom={true} style={{hyphens: 'auto', wordBreak: 'break-word'}}>
                     Hello, {username}!
                 </Typography>
                 <Typography>
                     Welcome to your IPFS Photo Gallery!
                 </Typography>
-                <PhotoUpload />
-                <PhotoGalleryGrid />
+                <Photos/>
                 {/*<UserSettingsForm*/}
                 {/*    cid={cid}*/}
                 {/*    setCID={setCID}*/}

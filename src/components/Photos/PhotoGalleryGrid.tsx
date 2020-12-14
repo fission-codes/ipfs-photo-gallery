@@ -1,5 +1,4 @@
 import * as React from 'react';
-import usePhotos from '../../ipfs/usePhotos';
 import { Grid, makeStyles, RootRef } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
@@ -56,18 +55,13 @@ const Photo: React.FC<Props> = (props) => {
     )
 };
 
-const PhotoGallery: React.FC = () => {
-    const {photos} = usePhotos()
-    if (photos !== undefined) {
-        return <>{photos.map(url => <Photo key={url} photo={url} />)}</>
+const PhotoGalleryGrid: React.FC<{ photos: string[] }> = ({ photos }) => {
+    if (photos.length > 0) {
+        return <Grid container spacing={3} wrap={'wrap'}>
+            {photos.map(url => <Photo key={url} photo={url}/>)}
+        </Grid>
     }
-
-    return <></>
-};
-
-const PhotoGalleryGrid: React.FC = () =>
-    <Grid container spacing={3} wrap={'wrap'}>
-        <PhotoGallery/>
-    </Grid>
+    return null
+}
 
 export default PhotoGalleryGrid;

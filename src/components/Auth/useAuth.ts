@@ -2,9 +2,11 @@ import * as React from 'react'
 import * as sdk from 'webnative'
 import { AuthSucceeded, Scenario, State } from 'webnative'
 import FileSystem from 'webnative/fs/filesystem';
-import { createPhotoGalleryPath, pathExists } from '../../ipfs/photoGalleryDirectory';
+import { createPhotoGalleryPath, pathExists } from '../../ipfs/PathUtils';
 
-function isAuthSucceeded(state: State | undefined): state is AuthSucceeded {
+export type AppPath = (path?: string | Array<string>) => string;
+
+export function isAuthSucceeded(state: State | undefined): state is AuthSucceeded {
     return state !== undefined &&
         (state.scenario === Scenario.AuthSucceeded || state.scenario === Scenario.Continuation);
 }

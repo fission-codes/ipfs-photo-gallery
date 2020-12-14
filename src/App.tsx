@@ -1,11 +1,8 @@
 import * as React from 'react';
-import AuthLayout from "./components/Auth/AuthLayout";
-import {AuthProvider} from "./components/Auth/AuthContext";
+import AuthLayout from './components/Auth/AuthLayout';
 
 const App: React.FC = () => (
-    <AuthProvider>
-        <AuthLayout />
-    </AuthProvider>
+    <AuthLayout />
 );
 
 export default App;
