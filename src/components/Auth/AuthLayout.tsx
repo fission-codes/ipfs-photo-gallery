@@ -1,6 +1,6 @@
 import * as React from 'react';
 import LoginForm from './LoginForm';
-import { Box, CircularProgress, Container, createMuiTheme, ThemeProvider } from '@material-ui/core';
+import { CircularProgress, Container, createMuiTheme, ThemeProvider } from '@material-ui/core';
 import * as sdk from 'webnative';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { PhotoUpload } from '../Photos/PhotoUpload';
@@ -18,10 +18,10 @@ const AuthLayout: React.FC = () => {
                 return (
                     <ThemeProvider theme={theme}>
                         <CssBaseline/>
-                        <Box component={Container}>
-                            <PhotoUpload addPhotos={addPhotos}/>
+                        <Container maxWidth={false}>
+                            <PhotoUpload addPhotos={addPhotos} noPhotos={photos.length === 0} />
                             <PhotoGalleryGrid photos={photos} />
-                        </Box>
+                        </Container>
                     </ThemeProvider>
                 )
             case sdk.Scenario.NotAuthorised:

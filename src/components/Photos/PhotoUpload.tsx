@@ -1,14 +1,39 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import { useDropzone } from 'react-dropzone'
 import { makeStyles, Paper, Typography } from '@material-ui/core';
 
 interface IPhotoUploadProps {
     addPhotos: (photos: File[]) => void;
+    noPhotos: boolean;
 }
 
-export const PhotoUpload: React.FC<IPhotoUploadProps> = ({ addPhotos }) => {
-    const onDrop = useCallback(files => addPhotos(files), [addPhotos]);
-    const {getRootProps, getInputProps, isDragActive} = useDropzone({accept: 'image/jpeg, image/png, image/gif', multiple: true, onDrop});
+export const PhotoUpload: React.FC<IPhotoUploadProps> = ({addPhotos, noPhotos}) => {
+    const onDrop = React.useCallback(files => addPhotos(files), [addPhotos]);
+    const [inWindow, setInWindow] = React.useState(false);
+    const {getRootProps, getInputProps} = useDropzone({accept: 'image/jpeg, image/png, image/gif', multiple: true, onDrop});
+
+    React.useEffect(() => {
+        const handleEsc = (event: KeyboardEvent) => {
+            if (event.key === 'Escape') {
+                setInWindow(false)
+            }
+        };
+
+        window.addEventListener('dragover', () => setInWindow(true));
+        window.addEventListener('dragleave', () => setInWindow(false));
+        window.addEventListener('drop', () => setInWindow(false));
+        window.addEventListener('keydown', handleEsc);
+
+        return () => {
+            window.removeEventListener('dragover', () => undefined);
+            window.removeEventListener('dragleave', () => undefined);
+            window.removeEventListener('drop', () => undefined);
+            window.removeEventListener('keydown', () => undefined);
+        };
+    }, []);
+
+    React.useEffect(() => console.log(inWindow), [inWindow])
+
     const useStyles = makeStyles(theme => ({
         paper: {
             cursor: 'pointer',
@@ -16,15 +41,24 @@ export const PhotoUpload: React.FC<IPhotoUploadProps> = ({ addPhotos }) => {
             flexDirection: 'column',
             alignItems: 'stretch',
             justifyContent: 'center',
-            marginBottom: theme.spacing(4),
-            marginTop: theme.spacing(4),
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: inWindow ? 99 : 1,
+            opacity: (noPhotos || inWindow) ? 1 : 0,
+            transition: 'all 0.25s ease-in-out',
             padding: theme.spacing(8),
-            transition: 'padding 0.125s ease-in-out',
             textAlign: 'center',
-            backgroundColor: isDragActive ? theme.palette.primary.main : theme.palette.background.paper,
+            borderRadius: 0,
+            backgroundColor: 'rgba(255,255,255,0.8)',
+            backdropFilter: 'blur(25px)',
+            boxSizing: 'border-box',
+            border: `2px dashed ${theme.palette.primary.main}`
         },
         text: {
-            color: isDragActive ? theme.palette.primary.contrastText : theme.palette.text.secondary,
+            color: theme.palette.text.primary,
         },
         img: {
             maxWidth: '100%',
