@@ -19,7 +19,7 @@ function useAuth() {
                     permissions: {
                         app: {
                             name: 'Photo Gallery',
-                            creator: 'PatDryburgh'
+                            creator: 'awonderful.shop'
                         }
                     }
                 });
