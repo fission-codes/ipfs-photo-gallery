@@ -1,6 +1,6 @@
 import * as React from 'react';
 import LoginForm from './LoginForm';
-import { CircularProgress, Container, createMuiTheme, ThemeProvider } from '@material-ui/core';
+import { Box, CircularProgress, Container, createMuiTheme, ThemeProvider, makeStyles } from '@material-ui/core';
 import * as sdk from 'webnative';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { PhotoUpload } from '../Photos/PhotoUpload';
@@ -18,6 +18,30 @@ const AuthLayout: React.FC = () => {
         }
     });
 
+    const useStyles = makeStyles(theme => ({
+        box: {
+            position: 'relative',
+            zIndex: 2,
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            paddingTop: theme.spacing(2),
+            paddingBottom: theme.spacing(2),
+        },
+    }))
+
+    const classes = useStyles();
+
+    const loading = (
+        <ThemeProvider theme={theme}>
+            <CssBaseline/>
+            <Box component={Container} className={classes.box}>
+                <CircularProgress/>
+            </Box>
+        </ThemeProvider>
+    )
+
     if (state !== undefined) {
         switch (state.scenario) {
             case sdk.Scenario.AuthSucceeded:
@@ -25,10 +49,8 @@ const AuthLayout: React.FC = () => {
                 return (
                     <ThemeProvider theme={theme}>
                         <CssBaseline/>
-                        <Container maxWidth={false}>
-                            <PhotoUpload addPhotos={addPhotos} noPhotos={photos.length === 0}/>
-                            <PhotoGalleryGrid photos={photos}/>
-                        </Container>
+                        <PhotoUpload addPhotos={addPhotos} noPhotos={photos.length === 0}/>
+                        {photos.length > 0 ? (<PhotoGalleryGrid photos={photos}/>) : loading}
                     </ThemeProvider>
                 );
             case sdk.Scenario.NotAuthorised:
@@ -38,15 +60,10 @@ const AuthLayout: React.FC = () => {
                     </ThemeProvider>
                 );
             default:
-                return (
-                    <ThemeProvider theme={theme}>
-                        <CssBaseline/>
-                        <CircularProgress/>
-                    </ThemeProvider>
-                );
+                return loading;
         }
     }
-    return <ThemeProvider theme={theme}><CircularProgress/></ThemeProvider>
+    return loading
 };
 
 export default AuthLayout;

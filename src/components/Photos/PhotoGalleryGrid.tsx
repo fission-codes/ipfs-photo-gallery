@@ -11,9 +11,9 @@ const Photo: React.FC<Props> = (props) => {
     const ref = React.useRef<HTMLDivElement>();
 
     const toggleBig = () => {
-        setBig(!big);
+        setBig(b => !b);
         setTimeout(() => {
-            if (ref) {
+            if (big && ref) {
                 ref.current && ref.current.scrollIntoView({
                     behavior: 'smooth',
                     block: 'center',
@@ -35,6 +35,12 @@ const Photo: React.FC<Props> = (props) => {
     }, [big])
 
     const useStyles = makeStyles(theme => ({
+        '@global': {
+            '@keyframes fadeIn': {
+                from: {opacity: 0},
+                to: {opacity: 1},
+            },
+        },
         grid: {
             transition: 'max-width .2s ease-in-out'
         },
@@ -61,12 +67,14 @@ const Photo: React.FC<Props> = (props) => {
             alignItems: 'center',
             justifyContent: 'center',
             padding: theme.spacing(8),
-            backgroundColor: fade(theme.palette.background.default, 0.8),
+            backgroundColor: fade(theme.palette.background.default, 0.85),
             backdropFilter: 'blur(25px)',
             opacity: big ? 1 : 0,
+            animation: `$fadeIn .325s ${theme.transitions.easing.easeInOut}`,
         },
         figure: {
             margin: 0,
+            animation: `$fadeIn .325s ${theme.transitions.easing.easeInOut}`,
         },
         img: {
             width: 'auto',
@@ -85,30 +93,31 @@ const Photo: React.FC<Props> = (props) => {
     }));
 
     const classes = useStyles();
+    const src = URL.createObjectURL(new Blob([props.photo as BlobPart]))
     return (
         <RootRef rootRef={ref}>
-            <ButtonBase focusRipple className={classes.button} onClick={toggleBig}>
-                <figure className={classes.figure}>
-                    <img
-                        src={URL.createObjectURL(new Blob([props.photo as BlobPart]))}
-                        alt={''}
-                        className={classes.img}
-                        // onError={evt => (evt.target as HTMLImageElement).style.display = 'none'}
-                    />
-                </figure>
-            </ButtonBase>
-            {big && (
-                <figure className={classes.bigFigure}>
-                    <ButtonBase focusRipple className={classes.bigButton} onClick={toggleBig}>
+            <>
+                <ButtonBase focusRipple className={classes.button} onClick={toggleBig}>
+                    <figure className={classes.figure}>
                         <img
-                            src={URL.createObjectURL(new Blob([props.photo as BlobPart]))}
+                            src={src}
                             alt={''}
                             className={classes.img}
-                            // onError={evt => (evt.target as HTMLImageElement).style.display = 'none'}
                         />
-                    </ButtonBase>
-                </figure>
-            )}
+                    </figure>
+                </ButtonBase>
+                {big && (
+                    <figure className={classes.bigFigure}>
+                        <ButtonBase focusRipple className={classes.bigButton} onClick={toggleBig}>
+                            <img
+                                src={src}
+                                alt={''}
+                                className={classes.img}
+                            />
+                        </ButtonBase>
+                    </figure>
+                )}
+            </>
         </RootRef>
     )
 };
@@ -116,12 +125,12 @@ const Photo: React.FC<Props> = (props) => {
 const PhotoGalleryGrid: React.FC<{ photos: FileContent[] }> = ({photos}) => {
     const useStyles = makeStyles(theme => ({
         container: {
+            background: theme.palette.background.default,
             position: 'relative',
             zIndex: 2,
             columns: 3,
             columnGap: theme.spacing(3),
-            paddingTop: theme.spacing(3),
-            paddingBottom: theme.spacing(3),
+            padding: theme.spacing(3),
         },
     }))
     const classes = useStyles();
