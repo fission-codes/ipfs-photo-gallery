@@ -81,6 +81,7 @@ const Photo: React.FC<Props> = (props) => {
             maxWidth: '100%',
             height: 'auto',
             maxHeight: '100%',
+            objectFit: 'contain',
         },
         loading: {
             display: 'flex',
