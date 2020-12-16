@@ -1,55 +1,37 @@
 import * as React from 'react'
 import * as sdk from 'webnative'
-import { AuthSucceeded, Scenario, State } from 'webnative'
-import FileSystem from 'webnative/fs/filesystem';
-import { createPhotoGalleryPath, pathExists } from '../../ipfs/PathUtils';
+import { AuthSucceeded, Continuation } from 'webnative'
 
 export type AppPath = (path?: string | Array<string>) => string;
 
-export function isAuthSucceeded(state: State | undefined): state is AuthSucceeded {
+export function isAuthSucceeded(state: sdk.State | undefined): state is AuthSucceeded | Continuation {
     return state !== undefined &&
-        (state.scenario === Scenario.AuthSucceeded || state.scenario === Scenario.Continuation);
+        (state.scenario === sdk.Scenario.AuthSucceeded || state.scenario === sdk.Scenario.Continuation);
 }
 
 function useAuth() {
-    const [state, setState] = React.useState<State>()
-    const authScenario = state?.scenario;
-    let fs: FileSystem | undefined = undefined;
-    let username = '';
-    let appPath;
+    const [state, setState] = React.useState<sdk.State>();
 
     React.useEffect(() => {
         async function fetchState() {
             try {
-                const result = await sdk.initialise({
+                return await sdk.initialise({
                     permissions: {
                         app: {
-                            name: 'IPFS Photo Gallery',
-                            creator: 'Pat Dryburgh'
+                            name: 'Photo Gallery',
+                            creator: 'PatDryburgh'
                         }
                     }
                 });
-                setState(result)
             } catch (err) {
                 console.error('fetchScenarioError', err)
             }
         }
 
-        fetchState().then(r => console.log(r))
+        fetchState().then(setState).catch(e => console.error(e))
     }, [])
 
-    if (isAuthSucceeded(state)) {
-        username = state.username
-        fs = state.fs
-        if (fs !== undefined && fs.appPath !== undefined) {
-            appPath = fs.appPath()
-            if (!pathExists(fs, appPath).then(() => undefined)) {
-                createPhotoGalleryPath(fs, appPath).then(() => undefined)
-            }
-        }
-    }
-
-    return {state, fs, username, authScenario, appPath};
+    return {state};
 }
 
 export default useAuth;

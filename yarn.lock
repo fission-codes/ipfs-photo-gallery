@@ -9320,6 +9320,11 @@ react-error-overlay@^6.0.8:
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.8.tgz#474ed11d04fc6bda3af643447d85e9127ed6b5de"
   integrity sha512-HvPuUQnLp5H7TouGq3kzBeioJmXms1wHy9EGjz2OURWBp4qZO6AfGEcnxts1D/CbwPLRAgTMPCEgYhA3sEM4vw==
 
+react-image-file-resizer@^0.3.8:
+  version "0.3.8"
+  resolved "https://registry.yarnpkg.com/react-image-file-resizer/-/react-image-file-resizer-0.3.8.tgz#c9ad58822f69432012f5e353933d4c11af26b034"
+  integrity sha512-54gA46Dmj2tSWuSGa0Gp6DBlur+MAnGh8q8eo/7hvh2bqoHmLo4mweJ4s0TUgANKllFAPD/5oLPK87M2AoOYTQ==
+
 react-is@^16.7.0, react-is@^16.8.0, react-is@^16.8.1:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"

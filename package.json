@@ -13,6 +13,7 @@
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-dropzone": "^10.2.1",
+    "react-image-file-resizer": "^0.3.8",
     "react-scripts": "^4.0.0",
     "typeface-roboto": "0.0.75",
     "typescript": "^3.8.0",

@@ -1,18 +1,17 @@
 import FileSystem from 'webnative/fs/filesystem';
+import { AppPath } from '../components/Auth/useAuth';
 
-export const pathExists = async (fs: FileSystem, appPath: string) => {
-    return await fs.exists(appPath)
-}
+export const createPhotoGalleryPath = async (fs?: FileSystem, appPath?: AppPath) => {
 
-export const createPhotoGalleryPath = async (fs: FileSystem, appPath: string) => {
     async function createPath() {
-        try {
-            await fs.mkdir(appPath)
-            await fs.publish()
-        } catch (err) {
-            console.error('createPathError', err)
+        if (fs !== undefined && appPath !== undefined && await fs.exists(appPath()).catch(r => console.error(r))) {
+            try {
+                await fs.mkdir(appPath())
+                await fs.publish()
+            } catch (err) {
+                console.error('createPathError', err)
+            }
         }
     }
-
-    createPath().then(() => console.log('createPath'));
+    createPath().catch((r) => console.error(r));
 }

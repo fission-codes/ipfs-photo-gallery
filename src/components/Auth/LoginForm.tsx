@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as sdk from 'webnative';
-import { Box, Button, Card, CardContent, CardMedia, createMuiTheme, Grid, Typography } from '@material-ui/core';
+import { Box, Button, Card, CardContent, CardMedia, Grid, Typography } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Icon from './undraw_image_upload_wqh3.svg'
 import { makeStyles } from '@material-ui/core/styles';
@@ -10,6 +10,13 @@ import useAuth from './useAuth';
 const LoginForm: React.FC = () => {
     const {state} = useAuth()
     const useStyles = makeStyles(theme => ({
+        box: {
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: theme.spacing(1)
+        },
         media: {
             paddingTop: '64%',
             backgroundSize: '96%',
@@ -21,8 +28,8 @@ const LoginForm: React.FC = () => {
     return (
         <>
             <CssBaseline/>
-            <Box my={createMuiTheme().spacing(1)}>
-                <Grid container={true} justify={'center'}>
+            <Box className={classes.box}>
+                <Grid container={true} justify={'center'} alignItems={'center'}>
                     <Grid item={true} sm={6} md={4}>
                         <Card>
                             <CardMedia
