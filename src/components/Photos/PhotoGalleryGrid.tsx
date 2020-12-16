@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, makeStyles, RootRef } from '@material-ui/core';
+import { Box, ButtonBase, fade, makeStyles, RootRef } from '@material-ui/core';
 import { FileContent } from 'webnative/ipfs';
 
 interface Props {
@@ -19,36 +19,54 @@ const Photo: React.FC<Props> = (props) => {
                     block: 'center',
                 });
             }
-        }, 200);
+        }, 300);
     };
+
+    React.useEffect(() => {
+        const handleEsc = (event: KeyboardEvent) => {
+            if (event.key === 'Escape') {
+                setBig(false)
+            }
+        };
+        window.addEventListener('keydown', handleEsc);
+        return () => {
+            window.removeEventListener('keydown', () => undefined);
+        };
+    }, [big])
 
     const useStyles = makeStyles(theme => ({
         grid: {
             transition: 'max-width .2s ease-in-out'
         },
+        button: {
+            marginBottom: theme.spacing(3),
+        },
+        bigButton: {
+            height: '100%',
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
         bigFigure: {
+            position: 'fixed',
             top: 0,
             left: 0,
-            right: 0,
-            bottom: 0,
-            position: 'fixed',
+            height: '100%',
+            width: '100%',
+            zIndex: 99,
             boxSizing: 'border-box',
             margin: 0,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             padding: theme.spacing(8),
-            backgroundColor: 'rgba(255,255,255,0.8)',
+            backgroundColor: fade(theme.palette.background.default, 0.8),
             backdropFilter: 'blur(25px)',
             opacity: big ? 1 : 0,
         },
         figure: {
-            display: 'flex',
-            alignItems: 'flex-end',
-            justifyContent: 'center',
             margin: 0,
-            height: '100%',
-            width: '100%',
         },
         img: {
             width: 'auto',
@@ -69,7 +87,7 @@ const Photo: React.FC<Props> = (props) => {
     const classes = useStyles();
     return (
         <RootRef rootRef={ref}>
-            <Grid item xs={6} md={3} onClick={toggleBig} className={classes.grid}>
+            <ButtonBase focusRipple className={classes.button} onClick={toggleBig}>
                 <figure className={classes.figure}>
                     <img
                         src={URL.createObjectURL(new Blob([props.photo as BlobPart]))}
@@ -78,17 +96,19 @@ const Photo: React.FC<Props> = (props) => {
                         // onError={evt => (evt.target as HTMLImageElement).style.display = 'none'}
                     />
                 </figure>
-                {big && (
-                    <figure className={classes.bigFigure}>
+            </ButtonBase>
+            {big && (
+                <figure className={classes.bigFigure}>
+                    <ButtonBase focusRipple className={classes.bigButton} onClick={toggleBig}>
                         <img
                             src={URL.createObjectURL(new Blob([props.photo as BlobPart]))}
                             alt={''}
                             className={classes.img}
                             // onError={evt => (evt.target as HTMLImageElement).style.display = 'none'}
                         />
-                    </figure>
-                )}
-            </Grid>
+                    </ButtonBase>
+                </figure>
+            )}
         </RootRef>
     )
 };
@@ -98,15 +118,17 @@ const PhotoGalleryGrid: React.FC<{ photos: FileContent[] }> = ({photos}) => {
         container: {
             position: 'relative',
             zIndex: 2,
-            paddingTop: theme.spacing(2),
-            paddingBottom: theme.spacing(2),
+            columns: 3,
+            columnGap: theme.spacing(3),
+            paddingTop: theme.spacing(3),
+            paddingBottom: theme.spacing(3),
         },
     }))
     const classes = useStyles();
     return (
-        <Grid container spacing={3} wrap={'wrap'} className={classes.container}>
+        <Box className={classes.container}>
             {photos.map((photo, i) => <Photo key={i} photo={photo}/>)}
-        </Grid>
+        </Box>
     )
 }
 

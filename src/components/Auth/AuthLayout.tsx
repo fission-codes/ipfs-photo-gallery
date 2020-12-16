@@ -8,10 +8,17 @@ import PhotoGalleryGrid from '../Photos/PhotoGalleryGrid';
 import usePhotos from '../Photos/usePhotos';
 
 const AuthLayout: React.FC = () => {
-    const { addPhotos, photos, state } = usePhotos();
-    const theme = createMuiTheme();
+    const {addPhotos, photos, state} = usePhotos();
 
-    if (state !== undefined ) {
+    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+
+    const theme = createMuiTheme({
+        palette: {
+            type: prefersDarkScheme.matches ? 'dark' : 'light'
+        }
+    });
+
+    if (state !== undefined) {
         switch (state.scenario) {
             case sdk.Scenario.AuthSucceeded:
             case sdk.Scenario.Continuation:
@@ -19,18 +26,27 @@ const AuthLayout: React.FC = () => {
                     <ThemeProvider theme={theme}>
                         <CssBaseline/>
                         <Container maxWidth={false}>
-                            <PhotoUpload addPhotos={addPhotos} noPhotos={photos.length === 0} />
-                            <PhotoGalleryGrid photos={photos} />
+                            <PhotoUpload addPhotos={addPhotos} noPhotos={photos.length === 0}/>
+                            <PhotoGalleryGrid photos={photos}/>
                         </Container>
                     </ThemeProvider>
-                )
+                );
             case sdk.Scenario.NotAuthorised:
-                return <LoginForm/>;
+                return (
+                    <ThemeProvider theme={theme}>
+                        <CssBaseline/><LoginForm/>
+                    </ThemeProvider>
+                );
             default:
-                return <CircularProgress/>;
+                return (
+                    <ThemeProvider theme={theme}>
+                        <CssBaseline/>
+                        <CircularProgress/>
+                    </ThemeProvider>
+                );
         }
     }
-    return null
+    return <ThemeProvider theme={theme}><CircularProgress/></ThemeProvider>
 };
 
 export default AuthLayout;

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDropzone } from 'react-dropzone'
-import { makeStyles, Paper, Typography } from '@material-ui/core';
+import { makeStyles, Paper, Typography, fade } from '@material-ui/core';
 
 interface IPhotoUploadProps {
     addPhotos: (photos: File[]) => void;
@@ -52,7 +52,7 @@ export const PhotoUpload: React.FC<IPhotoUploadProps> = ({addPhotos, noPhotos}) 
             padding: theme.spacing(8),
             textAlign: 'center',
             borderRadius: 0,
-            backgroundColor: 'rgba(255,255,255,0.8)',
+            backgroundColor: fade(theme.palette.background.default, 0.5),
             backdropFilter: 'blur(25px)',
             boxSizing: 'border-box',
             border: `2px dashed ${theme.palette.primary.main}`
