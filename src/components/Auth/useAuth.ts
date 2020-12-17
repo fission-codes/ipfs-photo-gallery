@@ -18,7 +18,7 @@ function useAuth() {
                 return await sdk.initialise({
                     permissions: {
                         app: {
-                            name: 'Photo Gallery',
+                            name: 'Milione',
                             creator: 'awonderful.shop'
                         }
                     }

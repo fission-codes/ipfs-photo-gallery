@@ -129,7 +129,7 @@ const PhotoGalleryGrid: React.FC<{ photos: FileContent[] }> = ({photos}) => {
             background: theme.palette.background.default,
             position: 'relative',
             zIndex: 2,
-            columns: 3,
+            columns: photos.length > 8 ? 3 : 2,
             columnGap: theme.spacing(3),
             padding: theme.spacing(3),
         },

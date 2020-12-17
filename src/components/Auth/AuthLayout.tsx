@@ -14,7 +14,10 @@ const AuthLayout: React.FC = () => {
 
     const theme = createMuiTheme({
         palette: {
-            type: prefersDarkScheme.matches ? 'dark' : 'light'
+            type: prefersDarkScheme.matches ? 'dark' : 'light',
+            background: {
+                default: prefersDarkScheme.matches ? '#222' : '#fafafa'
+            }
         }
     });
 

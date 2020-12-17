@@ -1,4 +1,4 @@
-# FISSION IPFS Photo Gallery Sample App
+# Milione — Web Native Photo Gallery
 
 [![Build Status](https://travis-ci.org/fission-suite/ipfs-photo-gallery.svg?branch=master)](https://travis-ci.org/fission-suite/ipfs-photo-gallery)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/fission-suite/blob/master/LICENSE)
