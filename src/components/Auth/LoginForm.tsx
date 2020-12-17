@@ -65,7 +65,7 @@ const LoginForm: React.FC = () => {
                                     gutterBottom={true}
                                     className={classes.subtitle}
                                 >
-                                    A web-native photo explorer available wherever you&nbsp;explore.
+                                    A web-native photo explorer available wherever you may&nbsp;roam
                                 </Typography>
                                 <Button
                                     variant={'contained'}
