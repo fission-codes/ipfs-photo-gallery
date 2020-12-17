@@ -132,6 +132,7 @@ const PhotoGalleryGrid: React.FC<{ photos: FileContent[] }> = ({photos}) => {
             columns: photos.length > 8 ? 3 : 2,
             columnGap: theme.spacing(3),
             padding: theme.spacing(3),
+            paddingBottom: 0,
         },
     }))
     const classes = useStyles();
