@@ -4,9 +4,16 @@ import FileSystem from 'webnative/fs/filesystem';
 import { FileContent } from 'webnative/ipfs';
 import { BaseLinks } from 'webnative/fs/types';
 
+export enum PublishingState {
+    waiting,
+    started,
+    finished,
+}
+
 function usePhotos() {
     const {state} = useAuth();
     const [photos, setPhotos] = React.useState<FileContent[]>([])
+    const [publishing, setPublishing] = React.useState<PublishingState>(PublishingState.waiting)
     const fs: FileSystem | undefined = isAuthSucceeded(state) ? state.fs : undefined
     const appPath = isAuthSucceeded(state)
     && state.fs !== undefined
@@ -18,7 +25,7 @@ function usePhotos() {
             setPhotos(p => [...photos, ...p])
             return Promise.all(photos.map(async (photo) => {
                 try {
-                    await fs.add(`${appPath}/${photo.name}`, photo, {publish: true})
+                    await fs.add(`${appPath}/${photo.name}`, photo)
                         .catch(r => console.error(r))
                 } catch (err) {
                     console.error('createPhotoGalleryPath', err);
@@ -28,7 +35,14 @@ function usePhotos() {
     }
 
     const addPhotos = (photos: File[]) => {
-        writePhotos(photos).catch(r => console.error(r))
+        setPublishing(PublishingState.started)
+        writePhotos(photos)
+            .then(async () => {
+                await fs?.publish()
+                    .then(() => setPublishing(PublishingState.finished))
+                    .catch(r => console.error(r))
+            })
+            .catch(r => console.error(r))
     }
 
     React.useEffect(() => {
@@ -63,7 +77,15 @@ function usePhotos() {
         fetchPhotos().then(setPhotos).catch(r => console.error(r))
     }, [state])
 
-    return {photos, addPhotos, state}
+    React.useEffect(() => {
+        if (publishing.valueOf() === PublishingState.finished.valueOf()) {
+            setTimeout(() => {
+                setPublishing(PublishingState.waiting)
+            }, 5000)
+        }
+    }, [publishing])
+
+    return {photos, addPhotos, state, publishing, setPublishing}
 }
 
 export default usePhotos;
