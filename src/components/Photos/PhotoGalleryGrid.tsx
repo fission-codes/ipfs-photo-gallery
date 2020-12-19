@@ -109,8 +109,11 @@ const PhotoGalleryGrid: React.FC<{ photos: FileContent[] }> = ({photos}) => {
             overflowY: 'auto',
         },
         grid: {
-            columns: photos.length > 8 ? 3 : 2,
-            columnGap: theme.spacing(3),
+            // columns: photos.length > 8 ? 3 : 2,
+            // columnGap: theme.spacing(3),
+            display: 'grid',
+            gridTemplateColumns: `repeat(auto-fill, minmax(250px, 1fr))`,
+            gridGap: theme.spacing(3)
         },
         bigButton: {
             height: '100%',
