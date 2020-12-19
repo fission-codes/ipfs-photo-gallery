@@ -26,7 +26,7 @@ function usePhotos() {
             return Promise.all(photos.map(async (photo) => {
                 try {
                     await fs.add(`${appPath}/${photo.name}`, photo)
-                        .catch(r => console.error(r))
+                        .then(console.log, console.error)
                 } catch (err) {
                     console.error('createPhotoGalleryPath', err);
                 }
@@ -39,8 +39,7 @@ function usePhotos() {
         writePhotos(photos)
             .then(async () => {
                 await fs?.publish()
-                    .then(() => setPublishing(PublishingState.finished))
-                    .catch(r => console.error(r))
+                    .then(() => setPublishing(PublishingState.finished), console.error)
             })
             .catch(r => console.error(r))
     }
