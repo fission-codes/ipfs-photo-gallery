@@ -22,13 +22,14 @@ function useAuth() {
                             creator: 'awonderful.shop'
                         }
                     }
-                });
+                })
+                    .then(state => state !== undefined && setState(state), console.error);
             } catch (err) {
                 console.error('fetchScenarioError', err)
             }
         }
 
-        fetchState().then(setState).catch(e => console.error(e))
+        fetchState().then().catch(e => console.error(e))
     }, [])
 
     return {state};

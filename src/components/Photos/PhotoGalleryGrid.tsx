@@ -10,18 +10,42 @@ interface Props {
 
 const Photo: React.FC<Props> = (props) => {
     const [url, setUrl] = React.useState<string | undefined>()
-
+    const [span, setSpan] = React.useState(10)
+    const imgRef = React.createRef<HTMLImageElement>()
     const src = props.src
 
     React.useEffect(() => {
         const setSrcUrl = async () => {
-            Resizer.imageFileResizer(new Blob([src as BlobPart]), 1200, 1800, 'JPEG', 90, 0,
-                photo => setUrl(URL.createObjectURL(new Blob([photo as BlobPart]))),
+            Resizer.imageFileResizer(new Blob([src as BlobPart]), 1200, 2400, 'JPEG', 80, 0,
+                photo => {
+                    console.log(photo)
+                    setUrl(URL.createObjectURL(new Blob([photo as BlobPart])))
+                },
                 'blob'
             );
         }
         setSrcUrl().catch(console.error)
     }, [src])
+
+    const onImgLoad = React.useCallback(() => {
+        if (imgRef.current) {
+            const height: number = imgRef.current.clientHeight;
+            const spans = Math.floor((height));
+            console.log(imgRef.current, spans)
+            setSpan(spans);
+        }
+    }, [imgRef])
+
+    React.useEffect(() => {
+        imgRef.current && imgRef.current.addEventListener('load', onImgLoad)
+    }, [imgRef, onImgLoad])
+
+    React.useEffect(() => {
+        window.addEventListener('resize', onImgLoad)
+        return () => {
+            window.removeEventListener('resize', onImgLoad)
+        }
+    }, [onImgLoad])
 
     const useStyles = makeStyles(theme => ({
         '@global': {
@@ -35,15 +59,19 @@ const Photo: React.FC<Props> = (props) => {
         },
         figure: {
             margin: 0,
-            marginBottom: theme.spacing(3),
-            animation: `$fadeIn .325s ${theme.transitions.easing.easeInOut}`,
+            // gridRowEnd: `span ${span}`,
+            // height: span
+        },
+        button: {
+            display: 'block',
+            width: '100%',
+            height: '100%',
         },
         img: {
-            width: 'auto',
-            maxWidth: '100%',
-            height: 'auto',
-            maxHeight: '100%',
-            objectFit: 'contain',
+            width: '100%',
+            height: '100%',
+            verticalAlign: 'top',
+            objectFit: 'cover',
         },
         loading: {
             display: 'flex',
@@ -59,16 +87,19 @@ const Photo: React.FC<Props> = (props) => {
 
     return (
         <figure className={classes.figure}>
-            <ButtonBase focusRipple onClick={props.setBig}>
+            <ButtonBase focusRipple onClick={props.setBig} className={classes.button}>
                 <img
                     src={url}
                     alt={''}
                     className={classes.img}
+                    ref={imgRef}
                 />
             </ButtonBase>
         </figure>
-    )
+)
 };
+
+const ROW_HEIGHT = 1;
 
 const PhotoGalleryGrid: React.FC<{ photos: FileContent[] }> = ({photos}) => {
     const [big, setBig] = React.useState<number | undefined>();
@@ -101,19 +132,19 @@ const PhotoGalleryGrid: React.FC<{ photos: FileContent[] }> = ({photos}) => {
         },
         container: {
             position: 'relative',
+            flex: '1 1 auto',
             height: '100%',
             zIndex: 2,
-            paddingTop: theme.spacing(3),
-            paddingLeft: theme.spacing(3),
-            paddingRight: theme.spacing(3),
             overflowY: 'auto',
         },
         grid: {
-            // columns: photos.length > 8 ? 3 : 2,
-            // columnGap: theme.spacing(3),
-            display: 'grid',
-            gridTemplateColumns: `repeat(auto-fill, minmax(250px, 1fr))`,
-            gridGap: theme.spacing(3)
+            [theme.breakpoints.up(theme.breakpoints.values.sm)]: {
+                display: 'grid',
+                gridTemplateColumns: `repeat(auto-fill, minmax(360px, 1fr))`,
+                gridTemplateRows: `repeat(auto-fit, 1fr)`,
+                gridGap: theme.spacing(3),
+                padding: theme.spacing(3),
+            },
         },
         bigButton: {
             height: '100%',

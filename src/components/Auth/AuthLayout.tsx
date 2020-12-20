@@ -1,15 +1,23 @@
 import * as React from 'react';
 import LoginForm from './LoginForm';
-import { Box, Button, CircularProgress, Container, createMuiTheme, LinearProgress, makeStyles, Snackbar, ThemeProvider } from '@material-ui/core';
+import { Box, Button, CircularProgress, createMuiTheme, LinearProgress, makeStyles, Snackbar, ThemeProvider } from '@material-ui/core';
 import * as sdk from 'webnative';
+import { NotAuthorised, Scenario } from 'webnative';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { PhotoUpload } from '../Photos/PhotoUpload';
 import PhotoGalleryGrid from '../Photos/PhotoGalleryGrid';
 import usePhotos, { PublishingState } from '../Photos/usePhotos';
-import {ReactComponent as FissionIcon} from './FissionIcon.svg';
+import { ReactComponent as FissionIcon } from './FissionIcon.svg';
+import useAuth from './useAuth';
+
+const initialAuthState = {
+    scenario: Scenario.NotAuthorised,
+    authenticated: false,
+} as NotAuthorised
 
 const AuthLayout: React.FC = () => {
-    const {addPhotos, photos, state, publishing} = usePhotos();
+    const {state} = useAuth();
+    const {addPhotos, photos, publishing, fetching} = usePhotos(state);
 
     const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
 
@@ -44,6 +52,12 @@ const AuthLayout: React.FC = () => {
             display: 'flex',
             flexDirection: 'column',
         },
+        loading: {
+            position: 'fixed',
+            top: '50%',
+            left: '50%',
+            zIndex: 50,
+        },
         progress: {
             opacity: publishing.valueOf() === PublishingState.started.valueOf() ? 1 : 0,
             animation: `$fadeIn .325s ${theme.transitions.easing.easeInOut}`,
@@ -70,65 +84,62 @@ const AuthLayout: React.FC = () => {
 
     const classes = useStyles();
 
-    const loading = (
-        <ThemeProvider theme={theme}>
-            <CssBaseline/>
-            <Box component={Container} className={classes.box}>
-                <CircularProgress/>
-            </Box>
-        </ThemeProvider>
-    )
+    const loading = <CircularProgress className={classes.loading}/>
 
-    if (state !== undefined) {
-        switch (state.scenario) {
-            case sdk.Scenario.AuthSucceeded:
-            case sdk.Scenario.Continuation:
-                return (
-                    <ThemeProvider theme={theme}>
-                        <CssBaseline/>
-                        <PhotoUpload addPhotos={addPhotos} noPhotos={photos.length === 0}/>
-                        <LinearProgress className={classes.progress}/>
-                        <Snackbar
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'center',
-                            }}
-                            open={publishing.valueOf() === PublishingState.finished.valueOf()}
-                        >
-                            <Box className={classes.successAlert}>
-                                Published!
+    switch (state?.scenario) {
+        case sdk.Scenario.AuthSucceeded:
+        case sdk.Scenario.Continuation:
+            return (
+                <ThemeProvider theme={theme}>
+                    <CssBaseline/>
+                    <PhotoUpload addPhotos={addPhotos} noPhotos={photos.length === 0}/>
+                    <LinearProgress className={classes.progress}/>
+                    <Snackbar
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'center',
+                        }}
+                        open={publishing.valueOf() === PublishingState.finished.valueOf()}
+                    >
+                        <Box className={classes.successAlert}>
+                            Published!
+                        </Box>
+                    </Snackbar>
+                    {fetching && loading}
+                    {photos.length > 0 && (
+                        <Box className={classes.layout}>
+                            <PhotoGalleryGrid photos={photos}/>
+                            <Box paddingX={3} paddingY={1} display={'flex'} flexDirection={'row'} justifyContent={'flex-end'} minHeight={'min-content'}>
+                                <Button
+                                    variant={'text'}
+                                    size={'small'}
+                                    startIcon={<FissionIcon/>}
+                                    focusRipple={true}
+                                    href={`https://drive.fission.codes/`}
+                                >
+                                    View on Fission Drive
+                                </Button>
                             </Box>
-                        </Snackbar>
-                        {photos.length > 0 ? (
-                            <Box className={classes.layout}>
-                                <PhotoGalleryGrid photos={photos}/>
-                                <Box paddingX={3} paddingY={1} display={'flex'} flexDirection={'row'} justifyContent={'flex-end'} minHeight={'min-content'}>
-                                    <Button
-                                        variant={'text'}
-                                        size={'small'}
-                                        startIcon={<FissionIcon />}
-                                        focusRipple={true}
-                                        href={`https://drive.fission.codes/`}
-                                    >
-                                        View on Fission Drive
-                                    </Button>
-                                </Box>
-                            </Box>
-                        ) : loading}
-                    </ThemeProvider>
-                );
-            case sdk.Scenario.NotAuthorised:
-                return (
-                    <ThemeProvider theme={theme}>
-                        <CssBaseline/>
-                        <LoginForm/>
-                    </ThemeProvider>
-                );
-            default:
-                return loading;
-        }
+                        </Box>
+                    )}
+                </ThemeProvider>
+            );
+        case sdk.Scenario.NotAuthorised:
+            return (
+                <ThemeProvider theme={theme}>
+                    <CssBaseline/>
+                    <LoginForm/>
+                </ThemeProvider>
+            );
+        default:
+            return (
+                <ThemeProvider theme={theme}>
+                    <CssBaseline/>
+                    {loading}
+                </ThemeProvider>
+            )
     }
-    return loading
+
 };
 
 export default AuthLayout;
