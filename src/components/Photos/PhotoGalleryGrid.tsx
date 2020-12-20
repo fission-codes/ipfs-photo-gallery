@@ -10,15 +10,12 @@ interface Props {
 
 const Photo: React.FC<Props> = (props) => {
     const [url, setUrl] = React.useState<string | undefined>()
-    const [span, setSpan] = React.useState(10)
-    const imgRef = React.createRef<HTMLImageElement>()
     const src = props.src
 
     React.useEffect(() => {
         const setSrcUrl = async () => {
             Resizer.imageFileResizer(new Blob([src as BlobPart]), 1200, 1800, 'JPEG', 80, 0,
                 photo => {
-                    console.log(photo)
                     setUrl(URL.createObjectURL(new Blob([photo as BlobPart])))
                 },
                 'blob'
@@ -26,26 +23,6 @@ const Photo: React.FC<Props> = (props) => {
         }
         setSrcUrl().catch(console.error)
     }, [src])
-
-    const onImgLoad = React.useCallback(() => {
-        if (imgRef.current) {
-            const height: number = imgRef.current.clientHeight;
-            const spans = Math.floor((height));
-            console.log(imgRef.current, spans)
-            setSpan(spans);
-        }
-    }, [imgRef])
-
-    React.useEffect(() => {
-        imgRef.current && imgRef.current.addEventListener('load', onImgLoad)
-    }, [imgRef, onImgLoad])
-
-    React.useEffect(() => {
-        window.addEventListener('resize', onImgLoad)
-        return () => {
-            window.removeEventListener('resize', onImgLoad)
-        }
-    }, [onImgLoad])
 
     const useStyles = makeStyles(theme => ({
         '@global': {
@@ -59,8 +36,6 @@ const Photo: React.FC<Props> = (props) => {
         },
         figure: {
             margin: 0,
-            // gridRowEnd: `span ${span}`,
-            // height: span
         },
         button: {
             display: 'block',
@@ -92,14 +67,11 @@ const Photo: React.FC<Props> = (props) => {
                     src={url}
                     alt={''}
                     className={classes.img}
-                    ref={imgRef}
                 />
             </ButtonBase>
         </figure>
 )
 };
-
-const ROW_HEIGHT = 1;
 
 const PhotoGalleryGrid: React.FC<{ photos: FileContent[] }> = ({photos}) => {
     const [big, setBig] = React.useState<number | undefined>();
