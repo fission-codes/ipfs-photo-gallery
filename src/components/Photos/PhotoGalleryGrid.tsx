@@ -16,7 +16,7 @@ const Photo: React.FC<Props> = (props) => {
 
     React.useEffect(() => {
         const setSrcUrl = async () => {
-            Resizer.imageFileResizer(new Blob([src as BlobPart]), 1200, 2400, 'JPEG', 80, 0,
+            Resizer.imageFileResizer(new Blob([src as BlobPart]), 1200, 1800, 'JPEG', 80, 0,
                 photo => {
                     console.log(photo)
                     setUrl(URL.createObjectURL(new Blob([photo as BlobPart])))
@@ -141,9 +141,10 @@ const PhotoGalleryGrid: React.FC<{ photos: FileContent[] }> = ({photos}) => {
             [theme.breakpoints.up(theme.breakpoints.values.sm)]: {
                 display: 'grid',
                 gridTemplateColumns: `repeat(auto-fill, minmax(360px, 1fr))`,
-                gridTemplateRows: `repeat(auto-fit, 1fr)`,
+                gridTemplateRows: `repeat(auto-fit, 0.75fr)`,
                 gridGap: theme.spacing(3),
                 padding: theme.spacing(3),
+                paddingBottom: 0,
             },
         },
         bigButton: {
