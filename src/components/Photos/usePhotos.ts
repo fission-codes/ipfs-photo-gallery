@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { isAuthSucceeded } from '../Auth/useAuth';
-import FileSystem from 'webnative/fs/filesystem';
 import { FileContent } from 'webnative/ipfs';
 import { State } from 'webnative';
 

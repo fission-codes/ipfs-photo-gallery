@@ -2,18 +2,12 @@ import * as React from 'react';
 import LoginForm from './LoginForm';
 import { Box, Button, CircularProgress, createMuiTheme, LinearProgress, makeStyles, Snackbar, ThemeProvider } from '@material-ui/core';
 import * as sdk from 'webnative';
-import { NotAuthorised, Scenario } from 'webnative';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { PhotoUpload } from '../Photos/PhotoUpload';
 import PhotoGalleryGrid from '../Photos/PhotoGalleryGrid';
 import usePhotos, { PublishingState } from '../Photos/usePhotos';
 import { ReactComponent as FissionIcon } from './FissionIcon.svg';
 import useAuth from './useAuth';
-
-const initialAuthState = {
-    scenario: Scenario.NotAuthorised,
-    authenticated: false,
-} as NotAuthorised
 
 const AuthLayout: React.FC = () => {
     const {state} = useAuth();
@@ -84,7 +78,9 @@ const AuthLayout: React.FC = () => {
 
     const classes = useStyles();
 
-    const loading = <CircularProgress className={classes.loading}/>
+    const loading = <Box className={classes.loading}>
+        <CircularProgress />
+    </Box>
 
     switch (state?.scenario) {
         case sdk.Scenario.AuthSucceeded:
