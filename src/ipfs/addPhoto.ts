@@ -1,5 +1,5 @@
 import { add } from '@fission-suite/client'
-import {auth} from "./getPhotoGallery";
+import { auth } from "./getPhotoGallery";
 
 export const addPhotosToIpfs = (photos: File[]) => {
     photos.map(async (photo) => {
